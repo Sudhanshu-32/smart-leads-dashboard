@@ -1,0 +1,44 @@
+version: '3.8'
+
+# docker-compose lets you spin up all 3 services with one command: docker-compose up
+# Each service runs in isolation but they can talk to each other by service name (e.g. "mongo")
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: smart-leads-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: smart-leads
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db  # Persist data across container restarts
+
+  backend:
+    build: ./backend
+    container_name: smart-leads-backend
+    restart: unless-stopped
+    depends_on:
+      - mongo  # Wait for mongo to be up before starting
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      MONGO_URI: mongodb://mongo:27017/smart-leads  # "mongo" = the service name above
+      JWT_SECRET: ${JWT_SECRET:-change_this_secret}
+      JWT_EXPIRES_IN: 7d
+      CLIENT_URL: http://localhost
+    ports:
+      - '5000:5000'
+
+  frontend:
+    build: ./frontend
+    container_name: smart-leads-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - '80:80'
+
+volumes:
+  mongo_data:
