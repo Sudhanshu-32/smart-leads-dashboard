@@ -11,7 +11,7 @@ import Pagination from '../components/leads/Pagination';
 import LeadForm from '../components/leads/LeadForm';
 import Modal from '../components/ui/Modal';
 import Button from '../components/ui/Button';
-import toast from 'react-hot-toast';
+
 
 const DashboardPage: React.FC = () => {
   const { user, logout } = useAuthStore();
