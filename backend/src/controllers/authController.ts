@@ -27,7 +27,7 @@ export const loginSchema = z.object({
 const signToken = (id: string, role: UserRole): string => {
   const secret = process.env.JWT_SECRET!;
   return jwt.sign({ id, role }, secret, {
-    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+    expiresIn: '7d',
   });
 };
 
