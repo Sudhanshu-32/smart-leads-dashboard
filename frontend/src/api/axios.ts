@@ -5,7 +5,7 @@ import axios from 'axios';
 // Why a custom instance? So we set baseURL and auth header ONCE,
 // not in every single API call throughout the app.
 const api = axios.create({
-  baseURL: '/api', // Vite proxy forwards /api → http://localhost:5000/api
+  baseURL: 'https://smart-leads-dashboard-1v8t.onrender.com/api', // Vite proxy forwards /api → http://localhost:5000/api
   headers: { 'Content-Type': 'application/json' },
 });
 
